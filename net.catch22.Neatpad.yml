@@ -1,0 +1,30 @@
+id: net.catch22.Neatpad
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: neatpad
+
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  # A text editor for files anywhere, including logs and multi-GB files that
+  # are slow to read through the document portal. It reads them in place, and
+  # makes a copy-on-write clone beside them to read, so another program
+  # writing the file doesn't change what's open.
+  - --filesystem=host
+
+modules:
+  - name: neatpad
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+    sources:
+      - type: git
+        url: https://github.com/strobejb/Neatpad.git
+        tag: v1.2.1
+        commit: 4f6799298c4cc04120f4dca5895f37ce6bcd2705
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
